@@ -12,7 +12,7 @@ echo "=================================="
 echo "Starting pgAdmin..."
 echo "=================================="
 
-python3 -m pgadmin4 &
+python3 /usr/local/lib/python3*/dist-packages/pgadmin4/pgAdmin4.py &
 
 echo "=================================="
 echo "Starting code-server..."

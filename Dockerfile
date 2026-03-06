@@ -2,7 +2,6 @@ FROM codercom/code-server:latest
 
 USER root
 
-# Install Python + Postgres + pgAdmin
 RUN apt-get update && \
     apt-get install -y \
     python3 \
@@ -10,8 +9,10 @@ RUN apt-get update && \
     git \
     curl \
     postgresql \
-    postgresql-contrib \
-    pgadmin4
+    postgresql-contrib
+
+# install pgadmin via pip
+RUN pip3 install pgadmin4
 
 WORKDIR /home/coder/project
 
@@ -24,7 +25,7 @@ RUN chmod +x /start.sh
 RUN rm -rf /root/.config/code-server
 
 EXPOSE 8080
-EXPOSE 5432
 EXPOSE 5050
+EXPOSE 5432
 
 ENTRYPOINT ["/start.sh"]

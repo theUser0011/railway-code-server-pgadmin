@@ -9,10 +9,17 @@ echo "=================================="
 service postgresql start
 
 echo "=================================="
+echo "Setting pgAdmin credentials..."
+echo "=================================="
+
+export PGADMIN_DEFAULT_EMAIL=admin@example.com
+export PGADMIN_DEFAULT_PASSWORD=admin123
+
+echo "=================================="
 echo "Starting pgAdmin..."
 echo "=================================="
 
-python3 /usr/local/lib/python3*/dist-packages/pgadmin4/pgAdmin4.py &
+gunicorn --bind 0.0.0.0:5050 pgadmin4.pgAdmin4:app &
 
 echo "=================================="
 echo "Starting code-server..."

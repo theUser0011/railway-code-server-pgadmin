@@ -2,7 +2,7 @@ FROM codercom/code-server:latest
 
 USER root
 
-# Install system dependencies
+# Install dependencies
 RUN apt-get update && \
     apt-get install -y \
     python3 \
@@ -16,23 +16,24 @@ RUN apt-get update && \
     postgresql-contrib \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pgadmin via pip using the bypass flag for PEP 668
-RUN pip3 install --break-system-packages pgadmin4
+# Install pgAdmin
+RUN pip3 install --break-system-packages pgadmin4 gunicorn
 
+# Project workspace
 WORKDIR /home/coder/project
 
-# Copy and install Python requirements
+# Install python requirements if exists
 COPY requirements.txt .
 RUN pip3 install --break-system-packages -r requirements.txt || true
 
-# Setup start script
+# Copy start script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Clean up default config to prevent collisions
+# Remove default code-server config
 RUN rm -rf /root/.config/code-server
 
-# Standard ports for Code-Server, pgAdmin, and Postgres
+# Ports
 EXPOSE 8080
 EXPOSE 5050
 EXPOSE 5432
